@@ -1,0 +1,59 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Learnings | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<style>
+			.panel {
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 10px;
+				padding: 1rem;
+				margin-bottom: 1rem;
+			}
+			.panel h2 {
+				font-size: 1.2rem;
+				margin-bottom: 0.4rem;
+			}
+			.panel ul {
+				margin: 0.5rem 0 0.2rem 1.2rem;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Learnings</h1>
+			<p>Notes from what I am currently studying and practicing.</p>
+
+			<section class="panel">
+				<h2>Current Focus</h2>
+				<ul>
+					<li>Web performance and static site architecture</li>
+					<li>Writing clearer technical documentation</li>
+					<li>Designing better personal workflows</li>
+				</ul>
+			</section>
+
+			<section class="panel">
+				<h2>Books And Resources</h2>
+				<ul>
+					<li>Add the books you are reading this month</li>
+					<li>Add blog posts or talks that changed your thinking</li>
+					<li>Add course notes and key takeaways</li>
+				</ul>
+			</section>
+
+			<section class="panel">
+				<h2>Monthly Reflection Prompt</h2>
+				<p>What did I build, what did I learn, and what will I improve next month?</p>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

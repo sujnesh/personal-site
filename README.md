@@ -1,62 +1,69 @@
-# Astro Starter Kit: Blog
+# sujnesh.com
 
-```sh
-npm create astro@latest -- --template blog
+Personal website built with Astro.
+
+## Why this setup
+
+- Free hosting with GitHub Pages
+- Custom domain support (`sujnesh.com`)
+- Easy publishing with Markdown content collections
+
+## Local development
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Open `http://localhost:4321`.
 
-Features:
+## Add content quickly
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+Create a new blog draft:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+```bash
+npm run new:blog -- "My New Post"
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Create a new project draft:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```bash
+npm run new:project -- "My New Project"
+```
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+Then edit the generated file:
 
-Any static assets, like images, can be placed in the `public/` directory.
+- Blogs: `src/content/blog/*.md`
+- Projects: `src/content/projects/*.md`
 
-## 🧞 Commands
+## Build
 
-All commands are run from the root of the project, from a terminal:
+```bash
+npm run build
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Free deploy (GitHub Pages)
 
-## 👀 Want to learn more?
+This repo already includes:
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `.github/workflows/deploy.yml` for automatic deploy on push to `main`
+- `public/CNAME` for `sujnesh.com`
 
-## Credit
+### One-time GitHub setup
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+1. Push this project to a GitHub repository.
+2. In GitHub repo settings, go to `Pages`.
+3. Set source to `GitHub Actions`.
+4. Push to `main` branch and wait for deploy workflow to complete.
+
+### Namecheap DNS records
+
+In Namecheap, set:
+
+- `A` record for `@` to `185.199.108.153`
+- `A` record for `@` to `185.199.109.153`
+- `A` record for `@` to `185.199.110.153`
+- `A` record for `@` to `185.199.111.153`
+- `CNAME` for `www` to `<your-github-username>.github.io`
+
+After propagation, GitHub Pages will issue HTTPS for your domain.
