@@ -17,36 +17,43 @@ const posts = (await getCollection('blog')).sort(
 		<BaseHead title={`Blog | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
 		<style>
 			main {
-				width: 800px;
+				width: min(100% - 32px, 860px);
 			}
+
 			ul {
 				display: grid;
 				gap: 1rem;
 				list-style-type: none;
-				margin: 0;
+				margin: 2rem 0 0;
 				padding: 0;
 			}
+
 			ul li {
-				border: 1px solid rgb(var(--gray-light));
-				border-radius: 10px;
-				padding: 1rem;
+				padding: 1.1rem;
+				border: 1px solid var(--line);
+				border-radius: 8px;
+				background: var(--panel);
 			}
+
 			ul li a {
 				display: inline-block;
 				font-size: 1.25rem;
 				font-weight: 700;
 				text-decoration: none;
 			}
+
 			.description {
 				margin: 0.4rem 0;
 			}
+
 			.date {
 				margin: 0.2rem 0 0;
-				color: rgb(var(--gray));
+				color: var(--muted);
 				font-size: 0.95rem;
 			}
-			section h1 {
-				margin-bottom: 0.75rem;
+
+			.empty {
+				margin-top: 2rem;
 			}
 		</style>
 	</head>
@@ -54,21 +61,27 @@ const posts = (await getCollection('blog')).sort(
 		<Header />
 		<main>
 			<section>
-				<h1>Blog</h1>
-				<p>Thoughts, notes, and build logs.</p>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.title}
-								</a>
-								<p class="description">{post.data.description}</p>
-								<p class="date"><FormattedDate date={post.data.pubDate} /></p>
-							</li>
-						))
-					}
-				</ul>
+				<p class="eyebrow">Blog</p>
+				<h1>Notes and build logs.</h1>
+				<p class="lede">Short writeups will live here once they are useful enough to keep.</p>
+				{
+					posts.length > 0 ? (
+						<ul>
+							{posts.map((post) => (
+								<li>
+									<a href={`/blog/${post.id}/`}>{post.data.title}</a>
+									<p class="description">{post.data.description}</p>
+									<p class="date"><FormattedDate date={post.data.pubDate} /></p>
+								</li>
+							))}
+						</ul>
+					) : (
+						<div class="empty">
+							<h2>No published notes yet.</h2>
+							<p>For now, the useful material is in the work index and learning log.</p>
+						</div>
+					)
+				}
 			</section>
 		</main>
 		<Footer />

@@ -2,31 +2,90 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_AVATAR, SITE_DESCRIPTION, SITE_GITHUB, SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={`About | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<style>
+			.about-grid {
+				display: grid;
+				grid-template-columns: 1fr 280px;
+				gap: 2rem;
+				align-items: start;
+			}
+
+			.portrait {
+				padding: 0.6rem;
+				border: 1px solid var(--line);
+				border-radius: 8px;
+				background: var(--panel);
+			}
+
+			.portrait img {
+				display: block;
+				width: 100%;
+			}
+
+			.list {
+				display: grid;
+				gap: 1rem;
+				margin-top: 2rem;
+			}
+
+			@media (max-width: 760px) {
+				.about-grid {
+					grid-template-columns: 1fr;
+				}
+
+				.portrait {
+					max-width: 260px;
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>About</h1>
-			<p>
-				I am Sujnesh, and this site is my personal log of building, learning, and sharing ideas in public.
-			</p>
-			<p>
-				When I work on something interesting, I document it here so I can track progress and help others who
-				are on a similar path.
-			</p>
-			<h2>What You Will Find Here</h2>
-			<ul>
-				<li>Project writeups and practical build notes</li>
-				<li>Blog posts around tech, growth, and systems</li>
-				<li>Learning journals from books, experiments, and courses</li>
-			</ul>
+			<section class="about-grid">
+				<div>
+					<p class="eyebrow">About</p>
+					<h1>I build systems that make useful behavior easier.</h1>
+					<p class="lede">
+						My work sits around product engineering, AI systems, developer tooling, and training software.
+						I use this site as a public index for projects, ideas, and learning records.
+					</p>
+					<div class="list">
+						<div class="card">
+							<h2>What I care about</h2>
+							<p>
+								Software that survives the gap between a promising prototype and a repeated workflow:
+								clear UX, boring reliability, and honest feedback loops.
+							</p>
+						</div>
+						<div class="card">
+							<h2>What I am exploring</h2>
+							<p>
+								AI observability, coaching agents, health and training products, and the engineering
+								habits that make small teams faster.
+							</p>
+						</div>
+						<div class="card">
+							<h2>Elsewhere</h2>
+							<p>
+								Most code and experiments live on
+								<a href={SITE_GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>. The polished
+								writeups land here when they are worth keeping.
+							</p>
+						</div>
+					</div>
+				</div>
+				<aside class="portrait" aria-label="Profile photo">
+					<img src={SITE_AVATAR} alt="Sujnesh Mishra" width="280" height="280" loading="lazy" />
+				</aside>
+			</section>
 		</main>
 		<Footer />
 	</body>

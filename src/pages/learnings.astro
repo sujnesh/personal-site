@@ -10,48 +10,73 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	<head>
 		<BaseHead title={`Learnings | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
 		<style>
-			.panel {
-				border: 1px solid rgb(var(--gray-light));
-				border-radius: 10px;
-				padding: 1rem;
-				margin-bottom: 1rem;
+			.learning-grid {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 1rem;
+				margin-top: 2rem;
 			}
-			.panel h2 {
-				font-size: 1.2rem;
-				margin-bottom: 0.4rem;
+
+			.learning-grid ul {
+				margin: 0.75rem 0 0;
+				padding-left: 1.1rem;
+				color: var(--muted);
 			}
-			.panel ul {
-				margin: 0.5rem 0 0.2rem 1.2rem;
+
+			@media (max-width: 760px) {
+				.learning-grid {
+					grid-template-columns: 1fr;
+				}
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>Learnings</h1>
-			<p>Notes from what I am currently studying and practicing.</p>
+			<p class="eyebrow">Learnings</p>
+			<h1>What I am sharpening now.</h1>
+			<p class="lede">
+				A working log of the themes that keep showing up in my projects. This page replaces random notes with
+				the areas I am actively improving.
+			</p>
 
-			<section class="panel">
-				<h2>Current Focus</h2>
-				<ul>
-					<li>Web performance and static site architecture</li>
-					<li>Writing clearer technical documentation</li>
-					<li>Designing better personal workflows</li>
-				</ul>
-			</section>
-
-			<section class="panel">
-				<h2>Books And Resources</h2>
-				<ul>
-					<li>Add the books you are reading this month</li>
-					<li>Add blog posts or talks that changed your thinking</li>
-					<li>Add course notes and key takeaways</li>
-				</ul>
-			</section>
-
-			<section class="panel">
-				<h2>Monthly Reflection Prompt</h2>
-				<p>What did I build, what did I learn, and what will I improve next month?</p>
+			<section class="learning-grid">
+				<article class="card">
+					<h2>AI systems that hold up</h2>
+					<p>Designing model-backed workflows with observability, routing, latency budgets, and fallback paths.</p>
+					<ul>
+						<li>Gateway-level usage and cost tracking</li>
+						<li>Prompt and response evaluation loops</li>
+						<li>Operational UX for non-demo behavior</li>
+					</ul>
+				</article>
+				<article class="card">
+					<h2>Training and coaching products</h2>
+					<p>Using sensors, context, and feedback loops to make fitness guidance feel timely and personal.</p>
+					<ul>
+						<li>Heart-rate zone coaching</li>
+						<li>Strength training progression</li>
+						<li>Conversational onboarding</li>
+					</ul>
+				</article>
+				<article class="card">
+					<h2>Software design notes</h2>
+					<p>Keeping systems small, legible, and easy to change without losing correctness at the edges.</p>
+					<ul>
+						<li>Fast feedback loops</li>
+						<li>Readable architecture boundaries</li>
+						<li>Root-cause fixes over patches</li>
+					</ul>
+				</article>
+				<article class="card">
+					<h2>Writing in public</h2>
+					<p>Turning project work into durable notes: what changed, what failed, and what I would do again.</p>
+					<ul>
+						<li>Build logs</li>
+						<li>Decision records</li>
+						<li>Post-launch reflections</li>
+					</ul>
+				</article>
 			</section>
 		</main>
 		<Footer />

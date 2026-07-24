@@ -1,29 +1,59 @@
 ---
-import { SITE_EMAIL, SITE_OWNER } from '../consts';
+import { SITE_EMAIL, SITE_GITHUB, SITE_OWNER } from '../consts';
 const today = new Date();
 ---
 
 <footer>
-	<p>&copy; {today.getFullYear()} {SITE_OWNER}. All rights reserved.</p>
-	<p>
-		<a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a>
-	</p>
+	<div>
+		<strong>{SITE_OWNER}</strong>
+		<p>Building useful AI systems, product tools, and training software.</p>
+	</div>
+	<nav aria-label="Footer links">
+		<a href="/work">Work</a>
+		<a href="/learnings">Learnings</a>
+		<a href={SITE_GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
+		<a href={`mailto:${SITE_EMAIL}`}>Email</a>
+	</nav>
+	<p class="fine">&copy; {today.getFullYear()} {SITE_OWNER}</p>
 </footer>
 <style>
 	footer {
-		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
-		text-align: center;
+		width: min(100% - 32px, var(--page));
+		margin: 4rem auto 0;
+		padding: 2rem 0 4rem;
+		border-top: 1px solid var(--line);
+		color: var(--muted);
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: 1rem;
 	}
 	footer p {
-		margin: 0.2rem 0;
+		margin: 0.35rem 0 0;
 	}
 	footer a {
 		text-decoration: none;
-		color: rgb(var(--gray));
+		color: var(--muted);
+		font-weight: 700;
 	}
 	footer a:hover {
-		color: rgb(var(--gray-dark));
+		color: var(--accent);
+	}
+	nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		justify-content: flex-end;
+	}
+	.fine {
+		grid-column: 1 / -1;
+		font-size: 0.86rem;
+	}
+	@media (max-width: 720px) {
+		footer {
+			grid-template-columns: 1fr;
+		}
+		nav {
+			justify-content: flex-start;
+		}
 	}
 </style>

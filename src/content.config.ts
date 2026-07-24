@@ -25,6 +25,7 @@ const projects = defineCollection({
 		pubDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
 		status: z.enum(['live', 'in-progress', 'archived']).default('in-progress'),
+		area: z.string().optional(),
 		tags: z.array(z.string()).default([]),
 		repoUrl: z.string().url().optional(),
 		demoUrl: z.string().url().optional(),

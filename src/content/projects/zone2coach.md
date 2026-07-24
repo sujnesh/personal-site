@@ -1,24 +1,27 @@
 ---
 title: "Zone2Coach"
-description: "An iOS running companion focused on zone-2 heart rate training."
-pubDate: "Mar 20 2026"
+description: "An iOS coaching app that connects to BLE heart-rate straps and keeps runners in Zone 2."
+pubDate: "2026-02-24"
 status: "in-progress"
-tags: ["iOS", "Swift", "Health", "BLE"]
-repoUrl: "https://github.com/your-username/zone2coach"
+area: "Endurance coaching"
+tags: ["SwiftUI", "iOS", "BLE", "Health"]
+repoUrl: "https://github.com/sujnesh/Zone2Coach"
 ---
 
 ## Overview
 
-Zone2Coach helps runners stay in zone-2 during training sessions.
+Zone2Coach is a focused endurance-training companion. It reads heart-rate data from BLE straps,
+classifies the current training zone, and gives real-time cues so the runner does not have to keep
+checking a screen mid-session.
 
 ## Highlights
 
-- Parses live heart rate data from BLE sensors
-- Provides cues to help maintain target effort
-- Includes diagnostics and session recording support
+- Connects to external BLE heart-rate straps.
+- Classifies Zone 2 state during a live run.
+- Plays coaching cues when the effort drifts too high or too low.
+- Keeps the product surface intentionally narrow: one job, during one kind of workout.
 
-## Next Steps
+## Product Question
 
-- Improve onboarding experience
-- Add better run summary insights
-- Expand test coverage for edge cases
+Can a lightweight coach make low-intensity running easier to follow without turning every run into
+a dashboard?

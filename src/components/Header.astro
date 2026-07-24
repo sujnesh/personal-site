@@ -1,61 +1,74 @@
 ---
-import { SITE_TITLE } from '../consts';
+import { SITE_EMAIL, SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
 <header>
 	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<a class="brand" href="/">{SITE_TITLE}</a>
 		<div class="links">
-			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/work">Work</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/learnings">Learnings</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
+			<a class="contact" href={`mailto:${SITE_EMAIL}`}>Contact</a>
 		</div>
 	</nav>
 </header>
 <style>
 	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
-
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
+		position: sticky;
+		top: 0;
+		z-index: 20;
+		border-bottom: 1px solid var(--line);
+		background: color-mix(in srgb, var(--surface) 92%, transparent);
+		backdrop-filter: blur(14px);
 	}
 	nav {
+		width: min(100% - 32px, var(--page));
+		margin: 0 auto;
+		min-height: 72px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 1rem;
 	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
+	.brand {
+		color: var(--ink);
+		font-weight: 800;
 		text-decoration: none;
 	}
-	nav a.active {
+	nav a {
+		color: var(--muted);
+		font-size: 0.92rem;
+		font-weight: 700;
 		text-decoration: none;
-		border-bottom-color: var(--accent);
 	}
 	.links {
 		display: flex;
+		align-items: center;
 		flex-wrap: wrap;
+		gap: 1.1rem;
+	}
+	.contact {
+		border: 1px solid var(--ink);
+		border-radius: 8px;
+		color: var(--ink);
+		padding: 0.42rem 0.72rem;
+	}
+	nav a:hover {
+		color: var(--accent);
 	}
 	@media (max-width: 720px) {
 		nav {
-			flex-direction: column;
-			align-items: flex-start;
-			padding-bottom: 0.5rem;
+			align-items: stretch;
+			padding: 0.85rem 0;
+		}
+		.links {
+			gap: 0.75rem;
+		}
+		.contact {
+			display: none;
 		}
 	}
 </style>

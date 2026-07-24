@@ -28,79 +28,74 @@ const { Content } = await render(project);
 		<BaseHead title={`${project.data.title} | ${SITE_TITLE}`} description={project.data.description} />
 		<style>
 			main {
-				width: 780px;
+				width: min(100% - 32px, 900px);
 			}
-			.meta {
-				color: rgb(var(--gray));
-				margin-bottom: 0.6rem;
+
+			.back {
+				display: inline-block;
+				margin-bottom: 1.6rem;
+				font-weight: 800;
+				text-decoration: none;
 			}
+
+			.project-head {
+				margin-bottom: 2rem;
+				padding-bottom: 2rem;
+				border-bottom: 1px solid var(--line);
+			}
+
+			.project-head h1 {
+				font-size: 3.5rem;
+			}
+
 			.links {
 				display: flex;
 				flex-wrap: wrap;
 				gap: 0.75rem;
-				margin-bottom: 1rem;
+				margin-top: 1.2rem;
 			}
-			.button {
-				font-size: 0.9rem;
-				padding: 0.3rem 0.7rem;
-				border-radius: 6px;
-				text-decoration: none;
-				background: rgb(var(--gray-light));
-				color: rgb(var(--gray-dark));
-			}
-			.tags {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.4rem;
-				margin: 0.8rem 0 1.2rem;
-			}
-			.tag {
-				font-size: 0.8rem;
-				padding: 0.15rem 0.5rem;
-				border-radius: 999px;
-				background: rgb(var(--gray-light));
-				color: rgb(var(--gray-dark));
-			}
-			.prose {
-				margin-top: 1rem;
-			}
-			.back {
-				display: inline-block;
-				margin-bottom: 1rem;
-				text-decoration: none;
+
+			@media (max-width: 640px) {
+				.project-head h1 {
+					font-size: 2.4rem;
+				}
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<a class="back" href="/work">← Back to work</a>
-			<h1>{project.data.title}</h1>
-			<p class="meta">
-				<FormattedDate date={project.data.pubDate} /> · {project.data.status}
-			</p>
-			<p>{project.data.description}</p>
-			{(project.data.repoUrl || project.data.demoUrl) && (
-				<div class="links">
-					{project.data.repoUrl && (
-						<a class="button" href={project.data.repoUrl} target="_blank" rel="noopener noreferrer">
-							Repository
-						</a>
-					)}
-					{project.data.demoUrl && (
-						<a class="button" href={project.data.demoUrl} target="_blank" rel="noopener noreferrer">
-							Live Demo
-						</a>
-					)}
-				</div>
-			)}
-			{project.data.tags.length > 0 && (
-				<div class="tags">
-					{project.data.tags.map((tag) => (
-						<span class="tag">{tag}</span>
-					))}
-				</div>
-			)}
+			<a class="back" href="/work">Back to work</a>
+			<section class="project-head">
+				<p class="eyebrow">{project.data.status}</p>
+				<h1>{project.data.title}</h1>
+				<p class="lede">{project.data.description}</p>
+				<p class="meta">
+					{project.data.area ? `${project.data.area} · ` : ''}
+					<FormattedDate date={project.data.pubDate} />
+				</p>
+				{project.data.tags.length > 0 && (
+					<div class="tags">
+						{project.data.tags.map((tag) => (
+							<span class="tag">{tag}</span>
+						))}
+					</div>
+				)}
+				{(project.data.repoUrl || project.data.demoUrl) && (
+					<div class="links">
+						{project.data.repoUrl && (
+							<a class="button secondary" href={project.data.repoUrl} target="_blank" rel="noopener noreferrer">
+								Repository
+							</a>
+						)}
+						{project.data.demoUrl && (
+							<a class="button secondary" href={project.data.demoUrl} target="_blank" rel="noopener noreferrer">
+								Live site
+							</a>
+						)}
+					</div>
+				)}
+			</section>
 			<article class="prose">
 				<Content />
 			</article>

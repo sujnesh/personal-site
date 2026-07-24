@@ -47,8 +47,9 @@ title: "${title}"
 description: "One-line summary of the project."
 pubDate: "${today}"
 status: "in-progress"
+area: "Project area"
 tags: ["tag-1", "tag-2"]
-repoUrl: "https://github.com/your-username/repo-name"
+repoUrl: "https://github.com/sujnesh/repo-name"
 ---
 `,
 		body: `

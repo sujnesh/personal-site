@@ -1,8 +1,17 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_DESCRIPTION, SITE_EMAIL, SITE_GITHUB, SITE_TITLE } from '../consts';
+
+const projects = (await getCollection('projects')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const featuredIds = ['tokenops', 'repwise', 'zone2coach', 'attunedd'];
+const featuredProjects = featuredIds
+	.map((id) => projects.find((project) => project.id === id))
+	.filter((project) => project !== undefined);
 ---
 
 <!doctype html>
@@ -11,39 +20,236 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
 			.hero {
-				margin-bottom: 2rem;
-			}
-			.hero h1 {
-				margin-bottom: 0.75rem;
-			}
-			.grid {
 				display: grid;
-				grid-template-columns: repeat(2, minmax(0, 1fr));
+				grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.75fr);
+				gap: 3rem;
+				min-height: 560px;
+				align-items: center;
+				margin: 0 calc(50% - 50vw);
+				padding: 5rem max(1rem, calc((100vw - var(--page)) / 2)) 3rem;
+				background-color: #17201f;
+				background-image: linear-gradient(135deg, #101817, #17201f 48%, #21302e);
+			}
+
+			main {
+				padding-top: 0;
+			}
+
+			.hero-inner {
+				max-width: 760px;
+			}
+
+			.hero h1,
+			.hero p {
+				color: white;
+			}
+
+			.hero .eyebrow {
+				color: #8ee0d1;
+			}
+
+			.hero .lede {
+				color: #e6efed;
+			}
+
+			.actions {
+				display: flex;
+				flex-wrap: wrap;
 				gap: 1rem;
-				margin-top: 2rem;
+				margin-top: 1.5rem;
 			}
-			.card {
-				border: 1px solid rgb(var(--gray-light));
-				border-radius: 10px;
-				padding: 1rem;
+
+			.hero .button.secondary {
+				border-color: rgba(255, 255, 255, 0.7);
+				color: white;
+			}
+
+			.system-map {
+				position: relative;
+				min-height: 420px;
+				border: 1px solid rgba(255, 255, 255, 0.18);
+				border-radius: 8px;
+				background:
+					linear-gradient(90deg, rgba(142, 224, 209, 0.13) 1px, transparent 1px),
+					linear-gradient(180deg, rgba(142, 224, 209, 0.11) 1px, transparent 1px),
+					rgba(255, 255, 255, 0.06);
+				background-size: 42px 42px;
+				box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+				overflow: hidden;
+			}
+
+			.system-map::before {
+				position: absolute;
+				inset: 15% 10%;
+				border: 1px solid rgba(142, 224, 209, 0.2);
+				content: "";
+			}
+
+			.node {
+				position: absolute;
+				display: grid;
+				min-width: 132px;
+				gap: 0.22rem;
+				padding: 0.7rem;
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				border-radius: 8px;
+				background: rgba(9, 14, 14, 0.72);
+			}
+
+			.node strong {
+				color: white;
+				font-size: 0.95rem;
+			}
+
+			.node span {
+				color: #9ee6da;
+				font-size: 0.74rem;
+				font-weight: 800;
+				text-transform: uppercase;
+			}
+
+			.node.one {
+				top: 14%;
+				left: 10%;
+			}
+
+			.node.two {
+				top: 28%;
+				right: 8%;
+			}
+
+			.node.three {
+				bottom: 16%;
+				left: 18%;
+			}
+
+			.node.four {
+				right: 15%;
+				bottom: 12%;
+			}
+
+			.trace {
+				position: absolute;
+				height: 2px;
+				background: linear-gradient(90deg, transparent, #8ee0d1, transparent);
+				opacity: 0.72;
+			}
+
+			.trace.a {
+				top: 41%;
+				left: 26%;
+				width: 48%;
+				transform: rotate(8deg);
+			}
+
+			.trace.b {
+				top: 58%;
+				left: 22%;
+				width: 52%;
+				transform: rotate(-16deg);
+			}
+
+			.trace.c {
+				top: 70%;
+				left: 34%;
+				width: 42%;
+				transform: rotate(12deg);
+			}
+
+			.readout {
+				position: absolute;
+				left: 8%;
+				right: 8%;
+				bottom: 7%;
+				display: flex;
+				justify-content: space-between;
+				gap: 1rem;
+				padding-top: 0.8rem;
+				border-top: 1px solid rgba(255, 255, 255, 0.18);
+			}
+
+			.readout span {
+				color: #dce3e1;
+				font-size: 0.78rem;
+				font-weight: 800;
+			}
+
+			.signal-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1px;
+				overflow: hidden;
+				border: 1px solid var(--line);
+				border-radius: 8px;
+				background: var(--line);
+			}
+
+			.signal {
+				padding: 1.2rem;
+				background: var(--panel);
+			}
+
+			.signal strong {
+				display: block;
+				font-size: 1.35rem;
+			}
+
+			.project-card {
+				color: inherit;
 				text-decoration: none;
-				color: rgb(var(--gray-dark));
-				transition: 0.2s ease;
 			}
-			.card h2 {
-				font-size: 1.2rem;
-				margin: 0 0 0.3rem 0;
-			}
-			.card p {
-				margin: 0;
-			}
-			.card:hover {
+
+			.project-card:hover {
 				border-color: var(--accent);
-				box-shadow: 0 8px 24px rgba(var(--gray), 20%);
 			}
-			@media (max-width: 720px) {
-				.grid {
+
+			.note-strip {
+				display: grid;
+				grid-template-columns: 1.3fr 1fr;
+				gap: 1rem;
+				padding: 1.4rem;
+				border-radius: 8px;
+				background: var(--ink);
+				color: white;
+			}
+
+			.note-strip h2 {
+				color: white;
+			}
+
+			.note-strip p {
+				color: #dce3e1;
+			}
+
+			.note-strip a {
+				color: #8ee0d1;
+				font-weight: 800;
+				text-decoration: none;
+			}
+
+			@media (max-width: 900px) {
+				.hero {
 					grid-template-columns: 1fr;
+					min-height: 520px;
+				}
+
+				.system-map {
+					min-height: 300px;
+				}
+
+				.signal-grid,
+				.note-strip {
+					grid-template-columns: 1fr;
+				}
+			}
+
+			@media (max-width: 640px) {
+				.hero {
+					padding-top: 3rem;
+				}
+
+				.system-map {
+					display: none;
 				}
 			}
 		</style>
@@ -52,34 +258,101 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<Header />
 		<main>
 			<section class="hero">
-				<h1>Hi, I am Sujnesh.</h1>
-				<p>
-					Welcome to my corner of the internet. I use this website to share my work, publish blog posts, and
-					document what I am learning.
-				</p>
-				<p>
-					This Astro setup is intentionally simple so you can keep publishing quickly. Update any section as
-					your interests evolve.
-				</p>
+				<div class="hero-inner">
+					<p class="eyebrow">Product engineer · AI systems · Builder notes</p>
+					<h1>Sujnesh Mishra</h1>
+					<p class="lede">
+						I build practical software around AI tooling, training systems, and developer workflows. This is
+						where I keep the projects, experiments, and notes worth returning to.
+					</p>
+					<div class="actions">
+						<a class="button" href="/work">View work</a>
+						<a class="button secondary" href={`mailto:${SITE_EMAIL}`}>Get in touch</a>
+					</div>
+				</div>
+				<div class="system-map" aria-hidden="true">
+					<div class="trace a"></div>
+					<div class="trace b"></div>
+					<div class="trace c"></div>
+					<div class="node one">
+						<span>Observe</span>
+						<strong>TokenOps</strong>
+					</div>
+					<div class="node two">
+						<span>Coach</span>
+						<strong>Attunedd</strong>
+					</div>
+					<div class="node three">
+						<span>Sense</span>
+						<strong>Zone2Coach</strong>
+					</div>
+					<div class="node four">
+						<span>Guide</span>
+						<strong>RepWise</strong>
+					</div>
+					<div class="readout">
+						<span>latency</span>
+						<span>cost</span>
+						<span>feedback</span>
+					</div>
+				</div>
 			</section>
 
-			<section class="grid">
-				<a class="card" href="/work">
-					<h2>Work</h2>
-					<p>Projects, case studies, and things I have built.</p>
-				</a>
-				<a class="card" href="/blog">
-					<h2>Blog</h2>
-					<p>Notes, essays, and updates from my journey.</p>
-				</a>
-				<a class="card" href="/learnings">
-					<h2>Learnings</h2>
-					<p>Books, tools, and concepts I am currently exploring.</p>
-				</a>
-				<a class="card" href="/about">
-					<h2>About</h2>
-					<p>Who I am, what I care about, and how to contact me.</p>
-				</a>
+			<section class="section" aria-label="Focus areas">
+				<div class="signal-grid">
+					<div class="signal">
+						<strong>AI products</strong>
+						<p>Coaching agents, observability tools, and workflows that turn models into usable systems.</p>
+					</div>
+					<div class="signal">
+						<strong>Training tech</strong>
+						<p>Strength and endurance apps that mix sensors, guidance, and behavior loops.</p>
+					</div>
+					<div class="signal">
+						<strong>Engineering notes</strong>
+						<p>Build logs, learning records, and sharp edges from real projects.</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="section">
+				<div class="section-header">
+					<div>
+						<p class="eyebrow">Selected work</p>
+						<h2>Projects with a real product angle.</h2>
+					</div>
+					<a class="link-more" href="/work">All work</a>
+				</div>
+				<div class="grid cards">
+					{
+						featuredProjects.map((project) => (
+							<a class="card project-card" href={`/work/${project.id}/`}>
+								<p class="meta">{project.data.area ?? project.data.status}</p>
+								<h3>{project.data.title}</h3>
+								<p>{project.data.description}</p>
+								{project.data.tags.length > 0 && (
+									<div class="tags">
+										{project.data.tags.slice(0, 4).map((tag) => (
+											<span class="tag">{tag}</span>
+										))}
+									</div>
+								)}
+							</a>
+						))
+					}
+				</div>
+			</section>
+
+			<section class="section note-strip">
+				<div>
+					<p class="eyebrow">Current direction</p>
+					<h2>Building smaller, useful AI systems.</h2>
+				</div>
+				<p>
+					The common thread is simple: less demo magic, more software that survives real usage. Browse the
+					<a href="/learnings">learning log</a> or the
+					<a href={SITE_GITHUB} target="_blank" rel="noopener noreferrer">GitHub profile</a>.
+				</p>
 			</section>
 		</main>
 		<Footer />

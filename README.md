@@ -11,6 +11,7 @@ Personal website built with Astro.
 ## Local development
 
 ```bash
+nvm use
 npm install
 npm run dev
 ```
@@ -64,6 +65,6 @@ In Namecheap, set:
 - `A` record for `@` to `185.199.109.153`
 - `A` record for `@` to `185.199.110.153`
 - `A` record for `@` to `185.199.111.153`
-- `CNAME` for `www` to `<your-github-username>.github.io`
+- `CNAME` for `www` to `sujnesh.github.io`
 
 After propagation, GitHub Pages will issue HTTPS for your domain.
