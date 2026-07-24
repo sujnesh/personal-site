@@ -3,7 +3,15 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_EMAIL, SITE_GITHUB, SITE_TITLE } from '../consts';
+import {
+	SITE_DESCRIPTION,
+	SITE_EMAIL,
+	SITE_GITHUB,
+	SITE_LINKEDIN,
+	SITE_OWNER,
+	SITE_TITLE,
+	SITE_X,
+} from '../consts';
 
 const projects = (await getCollection('projects')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -13,12 +21,73 @@ const featuredProjects = featuredIds
 	.map((id) => projects.find((project) => project.id === id))
 	.filter((project) => project !== undefined);
 const repwise = projects.find((project) => project.id === 'repwise');
+const siteUrl = new URL('/', Astro.site).href;
+const sameAs = [SITE_GITHUB, SITE_LINKEDIN, SITE_X];
+const jsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'ProfilePage',
+		name: `${SITE_OWNER} - Lead Backend Engineer and Applied AI Builder`,
+		url: siteUrl,
+		description: SITE_DESCRIPTION,
+		mainEntity: {
+			'@type': 'Person',
+			name: SITE_OWNER,
+			url: siteUrl,
+			email: `mailto:${SITE_EMAIL}`,
+			jobTitle: 'Lead Software Development Engineer',
+			address: {
+				'@type': 'PostalAddress',
+				addressLocality: 'Noida',
+				addressCountry: 'IN',
+			},
+			sameAs,
+			knowsAbout: [
+				'Backend platforms',
+				'Applied AI systems',
+				'LLM gateways',
+				'Recommendation systems',
+				'Product engineering',
+			],
+		},
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: SITE_TITLE,
+		url: siteUrl,
+		description: SITE_DESCRIPTION,
+		author: {
+			'@type': 'Person',
+			name: SITE_OWNER,
+			url: siteUrl,
+		},
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'ItemList',
+		name: 'Sujnesh Mishra project shortlist',
+		itemListElement: featuredProjects.map((project, index) => ({
+			'@type': 'ListItem',
+			position: index + 1,
+			url: new URL(`/work/${project.id}/`, Astro.site).href,
+			name: project.data.title,
+			description: project.data.description,
+		})),
+	},
+];
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead
+			title="Sujnesh Mishra | Lead Backend Engineer & Applied AI Builder"
+			description={SITE_DESCRIPTION}
+			image="/repwise-live.jpg"
+			imageAlt="RepWise AI workout coach demo by Sujnesh Mishra"
+			jsonLd={jsonLd}
+		/>
 		<style>
 			main {
 				width: min(100% - 32px, var(--page));
@@ -406,7 +475,7 @@ const repwise = projects.find((project) => project.id === 'repwise');
 			<section class="hero">
 				<div class="hero-copy">
 					<p class="terminal-line">sujnesh://now &gt; backend-platforms + applied-ai</p>
-					<h1>Software with a <span>pulse</span>.</h1>
+					<h1>Sujnesh Mishra builds software with a <span>pulse</span>.</h1>
 					<p class="lede">
 						I am Sujnesh Mishra, a lead backend engineer building monetization platforms, recommendation
 						systems, LLM gateways, and AI coaching products. This site is my public workbench.

@@ -5,15 +5,43 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import { SITE_OWNER } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: title,
+	description,
+	url: new URL(Astro.url.pathname, Astro.site).href,
+	mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+	datePublished: pubDate.toISOString(),
+	dateModified: (updatedDate ?? pubDate).toISOString(),
+	author: {
+		'@type': 'Person',
+		name: SITE_OWNER,
+		url: new URL('/', Astro.site).href,
+	},
+	publisher: {
+		'@type': 'Person',
+		name: SITE_OWNER,
+	},
+};
 ---
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead
+			title={`${title} | ${SITE_OWNER}`}
+			description={description}
+			image={heroImage}
+			type="article"
+			publishedTime={pubDate}
+			updatedTime={updatedDate}
+			jsonLd={jsonLd}
+		/>
 		<style>
 			main {
 				width: min(100% - 32px, 900px);

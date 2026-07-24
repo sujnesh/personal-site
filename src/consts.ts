@@ -7,4 +7,6 @@ export const SITE_DESCRIPTION =
 export const SITE_OWNER = 'Sujnesh Mishra';
 export const SITE_EMAIL = 'sujneshmishra@gmail.com';
 export const SITE_GITHUB = 'https://github.com/sujnesh';
+export const SITE_LINKEDIN = 'https://www.linkedin.com/in/sujnesh';
+export const SITE_X = 'https://x.com/sujnesh';
 export const SITE_AVATAR = 'https://avatars.githubusercontent.com/u/19958882?v=4';
