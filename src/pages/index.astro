@@ -8,10 +8,11 @@ import { SITE_DESCRIPTION, SITE_EMAIL, SITE_GITHUB, SITE_TITLE } from '../consts
 const projects = (await getCollection('projects')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
-const featuredIds = ['tokenops', 'repwise', 'zone2coach', 'attunedd'];
+const featuredIds = ['repwise', 'tokenops', 'zone2coach'];
 const featuredProjects = featuredIds
 	.map((id) => projects.find((project) => project.id === id))
 	.filter((project) => project !== undefined);
+const repwise = projects.find((project) => project.id === 'repwise');
 ---
 
 <!doctype html>
@@ -19,37 +20,82 @@ const featuredProjects = featuredIds
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
-			.hero {
-				display: grid;
-				grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.75fr);
-				gap: 3rem;
-				min-height: 560px;
-				align-items: center;
-				margin: 0 calc(50% - 50vw);
-				padding: 5rem max(1rem, calc((100vw - var(--page)) / 2)) 3rem;
-				background-color: #17201f;
-				background-image: linear-gradient(135deg, #101817, #17201f 48%, #21302e);
-			}
-
 			main {
+				width: min(100% - 32px, var(--page));
 				padding-top: 0;
 			}
 
-			.hero-inner {
-				max-width: 760px;
-			}
-
-			.hero h1,
-			.hero p {
+			.hero {
+				position: relative;
+				display: grid;
+				grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+				gap: 3rem;
+				align-items: center;
+				min-height: calc(100vh - 72px);
+				margin: 0 calc(50% - 50vw);
+				padding: 4rem max(1rem, calc((100vw - var(--page)) / 2));
+				background:
+					linear-gradient(90deg, rgba(230, 255, 54, 0.1) 1px, transparent 1px),
+					linear-gradient(180deg, rgba(230, 255, 54, 0.08) 1px, transparent 1px),
+					#0e120d;
+				background-size: 42px 42px;
 				color: white;
+				overflow: hidden;
 			}
 
-			.hero .eyebrow {
-				color: #8ee0d1;
+			.hero::after {
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: min(16vw, 180px);
+				height: 100%;
+				background:
+					linear-gradient(180deg, #e6ff36, #f59e0b 48%, #8ee0d1),
+					#e6ff36;
+				content: "";
+				mix-blend-mode: screen;
+				opacity: 0.82;
+			}
+
+			.hero-copy,
+			.demo-stage {
+				position: relative;
+				z-index: 1;
+			}
+
+			.hero h1 {
+				max-width: 920px;
+				color: white;
+				font-size: clamp(3.4rem, 9vw, 7.2rem);
+				line-height: 0.95;
+			}
+
+			.hero h1 span {
+				color: #e6ff36;
+			}
+
+			.hero p {
+				color: #dce3e1;
 			}
 
 			.hero .lede {
-				color: #e6efed;
+				max-width: 700px;
+				margin-top: 1rem;
+				color: #f4f7f3;
+			}
+
+			.terminal-line {
+				display: inline-flex;
+				max-width: 100%;
+				margin-bottom: 1.2rem;
+				padding: 0.35rem 0.55rem;
+				border: 1px solid rgba(230, 255, 54, 0.36);
+				background: rgba(0, 0, 0, 0.28);
+				color: #e6ff36;
+				font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+				font-size: 0.82rem;
+				font-weight: 800;
+				overflow-wrap: anywhere;
 			}
 
 			.actions {
@@ -59,196 +105,296 @@ const featuredProjects = featuredIds
 				margin-top: 1.5rem;
 			}
 
+			.hero .button {
+				border-color: #e6ff36;
+				background: #e6ff36;
+				color: #11130f;
+			}
+
 			.hero .button.secondary {
-				border-color: rgba(255, 255, 255, 0.7);
+				border-color: rgba(255, 255, 255, 0.65);
+				background: transparent;
 				color: white;
 			}
 
-			.system-map {
-				position: relative;
-				min-height: 420px;
-				border: 1px solid rgba(255, 255, 255, 0.18);
-				border-radius: 8px;
-				background:
-					linear-gradient(90deg, rgba(142, 224, 209, 0.13) 1px, transparent 1px),
-					linear-gradient(180deg, rgba(142, 224, 209, 0.11) 1px, transparent 1px),
-					rgba(255, 255, 255, 0.06);
-				background-size: 42px 42px;
-				box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
-				overflow: hidden;
-			}
-
-			.system-map::before {
-				position: absolute;
-				inset: 15% 10%;
-				border: 1px solid rgba(142, 224, 209, 0.2);
-				content: "";
-			}
-
-			.node {
-				position: absolute;
+			.status-strip {
 				display: grid;
-				min-width: 132px;
-				gap: 0.22rem;
-				padding: 0.7rem;
-				border: 1px solid rgba(255, 255, 255, 0.2);
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: 1px;
+				margin-top: 2rem;
+				overflow: hidden;
+				border: 1px solid rgba(255, 255, 255, 0.16);
 				border-radius: 8px;
-				background: rgba(9, 14, 14, 0.72);
+				background: rgba(255, 255, 255, 0.16);
 			}
 
-			.node strong {
-				color: white;
-				font-size: 0.95rem;
+			.status-strip div {
+				padding: 0.9rem;
+				background: rgba(13, 18, 15, 0.82);
 			}
 
-			.node span {
-				color: #9ee6da;
-				font-size: 0.74rem;
-				font-weight: 800;
+			.status-strip span {
+				display: block;
+				color: #8ee0d1;
+				font-size: 0.72rem;
+				font-weight: 900;
 				text-transform: uppercase;
 			}
 
-			.node.one {
-				top: 14%;
-				left: 10%;
+			.status-strip strong {
+				display: block;
+				margin-top: 0.3rem;
+				color: white;
+				font-size: 1.1rem;
+				line-height: 1.2;
 			}
 
-			.node.two {
-				top: 28%;
-				right: 8%;
+			.demo-stage {
+				justify-self: end;
+				width: min(100%, 360px);
 			}
 
-			.node.three {
-				bottom: 16%;
-				left: 18%;
-			}
-
-			.node.four {
-				right: 15%;
-				bottom: 12%;
-			}
-
-			.trace {
-				position: absolute;
-				height: 2px;
-				background: linear-gradient(90deg, transparent, #8ee0d1, transparent);
-				opacity: 0.72;
-			}
-
-			.trace.a {
-				top: 41%;
-				left: 26%;
-				width: 48%;
-				transform: rotate(8deg);
-			}
-
-			.trace.b {
-				top: 58%;
-				left: 22%;
-				width: 52%;
-				transform: rotate(-16deg);
-			}
-
-			.trace.c {
-				top: 70%;
-				left: 34%;
-				width: 42%;
-				transform: rotate(12deg);
-			}
-
-			.readout {
-				position: absolute;
-				left: 8%;
-				right: 8%;
-				bottom: 7%;
+			.window-label {
 				display: flex;
+				align-items: center;
 				justify-content: space-between;
-				gap: 1rem;
-				padding-top: 0.8rem;
-				border-top: 1px solid rgba(255, 255, 255, 0.18);
-			}
-
-			.readout span {
-				color: #dce3e1;
+				padding: 0.55rem 0.75rem;
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				border-bottom: 0;
+				border-radius: 8px 8px 0 0;
+				background: #17191f;
+				color: #e6ff36;
+				font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 				font-size: 0.78rem;
 				font-weight: 800;
 			}
 
-			.signal-grid {
-				display: grid;
-				grid-template-columns: repeat(3, minmax(0, 1fr));
-				gap: 1px;
+			.phone-shell {
+				position: relative;
+				display: block;
+				aspect-ratio: 9 / 16;
+				padding: 0.65rem;
+				border: 1px solid rgba(255, 255, 255, 0.24);
+				border-radius: 0 0 28px 28px;
+				background: #050706;
+				box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
 				overflow: hidden;
+			}
+
+			.phone-shell img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				border-radius: 0 0 20px 20px;
+			}
+
+			.play-mark {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				display: grid;
+				width: 74px;
+				height: 74px;
+				place-items: center;
+				border-radius: 999px;
+				background: rgba(14, 18, 13, 0.86);
+				transform: translate(-50%, -50%);
+			}
+
+			.play-mark::before {
+				margin-left: 5px;
+				border-top: 14px solid transparent;
+				border-bottom: 14px solid transparent;
+				border-left: 22px solid white;
+				content: "";
+			}
+
+			.demo-note {
+				margin-top: 1rem;
+				padding: 1rem;
+				border: 1px solid rgba(255, 255, 255, 0.18);
+				border-radius: 8px;
+				background: rgba(255, 255, 255, 0.08);
+			}
+
+			.demo-note h2 {
+				color: white;
+				font-size: 1.15rem;
+			}
+
+			.demo-note p {
+				margin: 0;
+				color: #d7e0de;
+				font-size: 0.95rem;
+			}
+
+			.demo-links {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.8rem;
+				margin-top: 0.8rem;
+			}
+
+			.demo-links a {
+				color: #e6ff36;
+				font-size: 0.9rem;
+				font-weight: 900;
+				text-decoration: none;
+			}
+
+			.shelf {
+				padding: 4.5rem 0;
+			}
+
+			.shortlist {
 				border: 1px solid var(--line);
 				border-radius: 8px;
-				background: var(--line);
-			}
-
-			.signal {
-				padding: 1.2rem;
 				background: var(--panel);
+				overflow: hidden;
 			}
 
-			.signal strong {
-				display: block;
-				font-size: 1.35rem;
-			}
-
-			.project-card {
+			.shortlist a {
+				display: grid;
+				grid-template-columns: 58px minmax(0, 1fr) auto auto;
+				gap: 1rem;
+				align-items: center;
+				padding: 1.2rem;
+				border-bottom: 1px solid var(--line);
 				color: inherit;
 				text-decoration: none;
 			}
 
-			.project-card:hover {
-				border-color: var(--accent);
+			.shortlist a:last-child {
+				border-bottom: 0;
+			}
+
+			.shortlist a:hover {
+				background: #f5fb41;
+			}
+
+			.shortlist .number,
+			.shortlist .area {
+				color: var(--muted);
+				font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+				font-size: 0.82rem;
+				font-weight: 800;
+				text-transform: uppercase;
+			}
+
+			.shortlist h3 {
+				margin-bottom: 0.2rem;
+				font-size: 1.55rem;
+			}
+
+			.shortlist p {
+				margin: 0;
+			}
+
+			.arrow {
+				color: var(--accent-strong);
+				font-size: 1.5rem;
+				font-weight: 900;
+			}
+
+			.field-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 1rem;
+				padding-bottom: 4.5rem;
+			}
+
+			.panel {
+				padding: 1.25rem;
+				border: 1px solid var(--ink);
+				border-radius: 8px;
+				background: var(--panel);
+			}
+
+			.panel.dark {
+				background: var(--ink);
+			}
+
+			.panel.dark h2,
+			.panel.dark p {
+				color: white;
+			}
+
+			.now-list {
+				display: grid;
+				gap: 0.75rem;
+				margin-top: 1rem;
+			}
+
+			.now-list div {
+				display: grid;
+				grid-template-columns: 120px 1fr;
+				gap: 1rem;
+				padding-top: 0.75rem;
+				border-top: 1px solid rgba(255, 255, 255, 0.16);
+			}
+
+			.now-list span {
+				color: #8ee0d1;
+				font-size: 0.8rem;
+				font-weight: 900;
+				text-transform: uppercase;
 			}
 
 			.note-strip {
 				display: grid;
-				grid-template-columns: 1.3fr 1fr;
+				grid-template-columns: 1.1fr 1fr;
 				gap: 1rem;
 				padding: 1.4rem;
 				border-radius: 8px;
-				background: var(--ink);
-				color: white;
+				background: #f59e0b;
+				color: #11130f;
 			}
 
-			.note-strip h2 {
-				color: white;
-			}
-
+			.note-strip h2,
 			.note-strip p {
-				color: #dce3e1;
+				color: #11130f;
 			}
 
 			.note-strip a {
-				color: #8ee0d1;
-				font-weight: 800;
-				text-decoration: none;
+				color: #11130f;
+				font-weight: 900;
 			}
 
 			@media (max-width: 900px) {
-				.hero {
-					grid-template-columns: 1fr;
-					min-height: 520px;
-				}
-
-				.system-map {
-					min-height: 300px;
-				}
-
-				.signal-grid,
+				.hero,
+				.field-grid,
 				.note-strip {
 					grid-template-columns: 1fr;
+				}
+
+				.hero::after {
+					width: 16px;
+				}
+
+				.demo-stage {
+					justify-self: start;
+					width: min(100%, 330px);
+				}
+
+				.status-strip {
+					grid-template-columns: repeat(2, minmax(0, 1fr));
 				}
 			}
 
 			@media (max-width: 640px) {
 				.hero {
 					padding-top: 3rem;
+					padding-bottom: 3rem;
 				}
 
-				.system-map {
+				.status-strip,
+				.shortlist a,
+				.now-list div {
+					grid-template-columns: 1fr;
+				}
+
+				.shortlist .area,
+				.arrow {
 					display: none;
 				}
 			}
@@ -258,100 +404,129 @@ const featuredProjects = featuredIds
 		<Header />
 		<main>
 			<section class="hero">
-				<div class="hero-inner">
-					<p class="eyebrow">Product engineer · AI systems · Builder notes</p>
-					<h1>Sujnesh Mishra</h1>
+				<div class="hero-copy">
+					<p class="terminal-line">sujnesh://now &gt; backend-platforms + applied-ai</p>
+					<h1>Software with a <span>pulse</span>.</h1>
 					<p class="lede">
-						I build practical software around AI tooling, training systems, and developer workflows. This is
-						where I keep the projects, experiments, and notes worth returning to.
+						I am Sujnesh Mishra, a lead backend engineer building monetization platforms, recommendation
+						systems, LLM gateways, and AI coaching products. This site is my public workbench.
 					</p>
 					<div class="actions">
-						<a class="button" href="/work">View work</a>
-						<a class="button secondary" href={`mailto:${SITE_EMAIL}`}>Get in touch</a>
+						{repwise?.data.demoUrl && <a class="button" href={repwise.data.demoUrl} target="_blank" rel="noopener noreferrer">Watch RepWise</a>}
+						<a class="button secondary" href="/work">Open shelf</a>
+						<a class="button secondary" href={`mailto:${SITE_EMAIL}`}>Email</a>
+					</div>
+					<div class="status-strip" aria-label="Career highlights">
+						<div>
+							<span>Experience</span>
+							<strong>8 years</strong>
+						</div>
+						<div>
+							<span>Lead path</span>
+							<strong>200K+ inserts/day</strong>
+						</div>
+						<div>
+							<span>Recommendations</span>
+							<strong>30K/day</strong>
+						</div>
+						<div>
+							<span>Latency</span>
+							<strong>p99 under 100ms</strong>
+						</div>
 					</div>
 				</div>
-				<div class="system-map" aria-hidden="true">
-					<div class="trace a"></div>
-					<div class="trace b"></div>
-					<div class="trace c"></div>
-					<div class="node one">
-						<span>Observe</span>
-						<strong>TokenOps</strong>
-					</div>
-					<div class="node two">
-						<span>Coach</span>
-						<strong>Attunedd</strong>
-					</div>
-					<div class="node three">
-						<span>Sense</span>
-						<strong>Zone2Coach</strong>
-					</div>
-					<div class="node four">
-						<span>Guide</span>
-						<strong>RepWise</strong>
-					</div>
-					<div class="readout">
-						<span>latency</span>
-						<span>cost</span>
-						<span>feedback</span>
-					</div>
-				</div>
+				{repwise?.data.demoUrl && repwise.data.videoThumbUrl && (
+					<aside class="demo-stage" id="repwise-demo" aria-label="RepWise demo">
+						<div class="window-label">
+							<span>repwise.short</span>
+							<span>live demo</span>
+						</div>
+						<a class="phone-shell" href={repwise.data.demoUrl} target="_blank" rel="noopener noreferrer">
+							<img src={repwise.data.videoThumbUrl} alt="RepWise app demo showing pose tracking during a workout" width="552" height="1200" />
+							<span class="play-mark" aria-hidden="true"></span>
+						</a>
+						<div class="demo-note">
+							<p class="eyebrow">RepWise</p>
+							<h2>AI workout coaching in motion.</h2>
+							<p>Click the phone for the full YouTube Short. The X post has the screenshot thread.</p>
+							<div class="demo-links">
+								<a href={repwise.data.demoUrl} target="_blank" rel="noopener noreferrer">YouTube Short</a>
+								{repwise.data.socialUrl && (
+									<a href={repwise.data.socialUrl} target="_blank" rel="noopener noreferrer">X post</a>
+								)}
+							</div>
+						</div>
+					</aside>
+				)}
 			</section>
 
-			<section class="section" aria-label="Focus areas">
-				<div class="signal-grid">
-					<div class="signal">
-						<strong>AI products</strong>
-						<p>Coaching agents, observability tools, and workflows that turn models into usable systems.</p>
-					</div>
-					<div class="signal">
-						<strong>Training tech</strong>
-						<p>Strength and endurance apps that mix sensors, guidance, and behavior loops.</p>
-					</div>
-					<div class="signal">
-						<strong>Engineering notes</strong>
-						<p>Build logs, learning records, and sharp edges from real projects.</p>
-					</div>
-				</div>
-			</section>
-
-			<section class="section">
+			<section class="shelf">
 				<div class="section-header">
 					<div>
-						<p class="eyebrow">Selected work</p>
-						<h2>Projects with a real product angle.</h2>
+						<p class="eyebrow">Project shortlist</p>
+						<h2>Open tabs worth keeping.</h2>
 					</div>
 					<a class="link-more" href="/work">All work</a>
 				</div>
-				<div class="grid cards">
+				<div class="shortlist">
 					{
-						featuredProjects.map((project) => (
-							<a class="card project-card" href={`/work/${project.id}/`}>
-								<p class="meta">{project.data.area ?? project.data.status}</p>
-								<h3>{project.data.title}</h3>
-								<p>{project.data.description}</p>
-								{project.data.tags.length > 0 && (
-									<div class="tags">
-										{project.data.tags.slice(0, 4).map((tag) => (
-											<span class="tag">{tag}</span>
-										))}
-									</div>
-								)}
+						featuredProjects.map((project, index) => (
+							<a href={`/work/${project.id}/`}>
+								<span class="number">0{index + 1}</span>
+								<div>
+									<h3>{project.data.title}</h3>
+									<p>{project.data.description}</p>
+								</div>
+								<span class="area">{project.data.area ?? project.data.status}</span>
+								<span class="arrow" aria-hidden="true">-&gt;</span>
 							</a>
 						))
 					}
 				</div>
 			</section>
 
+			<section class="field-grid" aria-label="Current work">
+				<div class="panel dark">
+					<p class="eyebrow">Currently</p>
+					<h2>Production backend by day, AI product lab by night.</h2>
+					<div class="now-list">
+						<div>
+							<span>Work</span>
+							<p>Lead SDE at Housing.com / REA India on monetization and lead-generation systems.</p>
+						</div>
+						<div>
+							<span>AI</span>
+							<p>TokenOps for LLM routing, governance, budgets, and audit visibility.</p>
+						</div>
+						<div>
+							<span>Training</span>
+							<p>RepWise and Zone2Coach for real-time coaching loops.</p>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<p class="eyebrow">Operating notes</p>
+					<h2>What I care about</h2>
+					<p>
+						Clear system boundaries, measurable product impact, fewer clever abstractions, and tools that
+						people actually return to after the demo ends.
+					</p>
+					<p>
+						The personal-site references pushed this page away from a generic portfolio and toward a living
+						shelf: visual proof, status, work history, and rough edges intact.
+					</p>
+				</div>
+			</section>
+
 			<section class="section note-strip">
 				<div>
-					<p class="eyebrow">Current direction</p>
-					<h2>Building smaller, useful AI systems.</h2>
+					<p class="eyebrow">Field log</p>
+					<h2>Build notes, experiments, and things I keep learning.</h2>
 				</div>
 				<p>
-					The common thread is simple: less demo magic, more software that survives real usage. Browse the
-					<a href="/learnings">learning log</a> or the
-					<a href={SITE_GITHUB} target="_blank" rel="noopener noreferrer">GitHub profile</a>.
+					Browse the <a href="/learnings">learning log</a>, the
+					<a href={SITE_GITHUB} target="_blank" rel="noopener noreferrer">GitHub profile</a>, or the full
+					<a href="/work">work shelf</a>.
 				</p>
 			</section>
 		</main>

@@ -10,14 +10,16 @@ repoUrl: "https://github.com/sujnesh/tokenops"
 
 ## Overview
 
-TokenOps is aimed at the operational layer around AI usage. The product question is not just
-"which model answered?" but where usage, latency, routing, and cost are moving across a system.
+TokenOps is aimed at the operational layer around AI usage. It is an org-level LLM gateway/load
+balancer for governance, policy enforcement, model routing, upfront cost estimation, budget
+guardrails, and per-team audit visibility.
 
 ## What It Tracks
 
 - Usage across AI calls.
 - Cost and latency patterns.
 - Routing behavior between providers or models.
+- Budget guardrails before requests become surprise spend.
 - Savings opportunities from better defaults.
 
 ## Why It Matters

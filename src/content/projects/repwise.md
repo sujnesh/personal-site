@@ -6,12 +6,16 @@ status: "in-progress"
 area: "AI fitness coach"
 tags: ["Python", "Gemini Live", "Fitness", "AI Coach"]
 repoUrl: "https://github.com/sujnesh/repwise"
+demoUrl: "https://www.youtube.com/shorts/1jc4_jKcCnI"
+videoThumbUrl: "/repwise-live.jpg"
+socialUrl: "https://x.com/sujnesh/status/2060944123662901600?s=20"
 ---
 
 ## Overview
 
 RepWise explores what a real-time AI workout coach can feel like when the interaction is closer to
-conversation than a static workout plan.
+conversation than a static workout plan. The demo shows the product loop: guidance, response,
+and workout context moving together instead of living in separate screens.
 
 ## Product Angle
 
@@ -23,3 +27,4 @@ and keep the session moving without becoming noise.
 - Real-time coaching flow.
 - Simple feedback loops during a workout.
 - Clear boundaries between guidance and overbearing instruction.
+- A product surface that feels like an assistant, not a form.

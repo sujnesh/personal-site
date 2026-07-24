@@ -3,7 +3,7 @@
 
 export const SITE_TITLE = 'Sujnesh Mishra';
 export const SITE_DESCRIPTION =
-	'Personal website of Sujnesh Mishra: AI systems, product engineering, experiments, and field notes.';
+	'Personal website of Sujnesh Mishra: backend platforms, applied AI systems, product engineering, and field notes.';
 export const SITE_OWNER = 'Sujnesh Mishra';
 export const SITE_EMAIL = 'sujneshmishra@gmail.com';
 export const SITE_GITHUB = 'https://github.com/sujnesh';
