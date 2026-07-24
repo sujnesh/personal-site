@@ -100,7 +100,7 @@ const jsonLd = [
 				grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
 				gap: 3rem;
 				align-items: center;
-				min-height: calc(100vh - 72px);
+				min-height: min(720px, calc(86vh - 72px));
 				margin: 0 calc(50% - 50vw);
 				padding: 4rem max(1rem, calc((100vw - var(--page)) / 2));
 				background:
@@ -135,12 +135,8 @@ const jsonLd = [
 			.hero h1 {
 				max-width: 920px;
 				color: white;
-				font-size: clamp(3.4rem, 9vw, 7.2rem);
-				line-height: 0.95;
-			}
-
-			.hero h1 span {
-				color: #e6ff36;
+				font-size: clamp(2.6rem, 6vw, 5.2rem);
+				line-height: 1;
 			}
 
 			.hero p {
@@ -475,10 +471,10 @@ const jsonLd = [
 			<section class="hero">
 				<div class="hero-copy">
 					<p class="terminal-line">sujnesh://now &gt; backend-platforms + applied-ai</p>
-					<h1>Sujnesh Mishra</h1>
+					<h1>Backend systems and applied AI.</h1>
 					<p class="lede">
-						Lead backend engineer building monetization platforms, recommendation systems, LLM gateways,
-						and AI coaching products. This site is my public workbench.
+						Lead engineer focused on monetization systems, recommendation loops, LLM gateways,
+						and coaching apps that move from prototype to production.
 					</p>
 					<div class="actions">
 						{repwise?.data.demoUrl && <a class="button" href={repwise.data.demoUrl} target="_blank" rel="noopener noreferrer">Watch RepWise</a>}
