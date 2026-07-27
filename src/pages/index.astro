@@ -94,74 +94,38 @@ const jsonLd = [
 				padding-top: 0;
 			}
 
-			.hero {
-				position: relative;
+			.home-intro {
 				display: grid;
-				grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
-				gap: 2.5rem;
-				align-items: center;
-				margin: 0 calc(50% - 50vw);
-				padding: 3.25rem max(1rem, calc((100vw - var(--page)) / 2));
-				background:
-					linear-gradient(90deg, rgba(230, 255, 54, 0.05) 1px, transparent 1px),
-					linear-gradient(180deg, rgba(230, 255, 54, 0.04) 1px, transparent 1px),
-					#0e120d;
-				background-size: 56px 56px;
-				color: white;
-				overflow: hidden;
+				grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+				gap: 2rem;
+				align-items: start;
+				padding: 3.5rem 0 2.75rem;
+				border-bottom: 1px solid var(--line);
 			}
 
-			.hero::after {
-				position: absolute;
-				top: 0;
-				right: 0;
-				width: 8px;
-				height: 100%;
-				background:
-					linear-gradient(180deg, #e6ff36, #f59e0b 48%, #8ee0d1),
-					#e6ff36;
-				content: "";
-				mix-blend-mode: screen;
-				opacity: 0.82;
+			.intro-copy {
+				max-width: 780px;
 			}
 
-			.hero-copy,
-			.demo-stage {
-				position: relative;
-				z-index: 1;
-			}
-
-			.hero h1 {
-				max-width: 760px;
-				color: white;
-				font-size: clamp(2.1rem, 4.4vw, 3.9rem);
+			.home-intro h1 {
+				max-width: 720px;
+				font-size: clamp(2.2rem, 4.5vw, 4.2rem);
 				line-height: 1.05;
 			}
 
-			.hero p {
-				color: #dce3e1;
-			}
-
-			.hero .lede {
-				max-width: 700px;
+			.home-intro .lede {
+				max-width: 680px;
 				margin-top: 1rem;
-				color: #f4f7f3;
 			}
 
-			.terminal-line {
-				display: inline-flex;
-				max-width: 100%;
+			.prompt {
 				margin-bottom: 1rem;
-				padding: 0.3rem 0;
-				border: 1px solid rgba(230, 255, 54, 0.36);
-				border-width: 0 0 1px;
-				background: transparent;
-				color: #e6ff36;
-				font-size: 0.82rem;
+				padding-left: 0.75rem;
+				border-left: 3px solid var(--accent);
+				color: var(--accent-strong);
+				font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+				font-size: 0.88rem;
 				font-weight: 800;
-				letter-spacing: 0.08em;
-				overflow-wrap: anywhere;
-				text-transform: uppercase;
 			}
 
 			.actions {
@@ -171,139 +135,52 @@ const jsonLd = [
 				margin-top: 1.5rem;
 			}
 
-			.hero .button {
-				border-color: #e6ff36;
-				background: #e6ff36;
-				color: #11130f;
+			.status-panel {
+				padding: 1rem;
+				border: 1px solid var(--line);
+				border-radius: 8px;
+				background: var(--panel);
 			}
 
-			.hero .button.secondary {
-				border-color: rgba(255, 255, 255, 0.65);
-				background: transparent;
-				color: white;
-			}
-
-			.status-strip {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.6rem;
-				margin-top: 1.4rem;
-			}
-
-			.status-strip div {
-				padding: 0.55rem 0.7rem;
-				border: 1px solid rgba(255, 255, 255, 0.14);
-				border-radius: 999px;
-				background: rgba(13, 18, 15, 0.82);
-			}
-
-			.status-strip span {
-				display: block;
-				color: #8ee0d1;
-				font-size: 0.72rem;
-				font-weight: 900;
-				text-transform: uppercase;
-			}
-
-			.status-strip strong {
-				display: block;
-				margin-top: 0.3rem;
-				color: white;
-				font-size: 0.95rem;
-				line-height: 1.2;
-			}
-
-			.demo-stage {
-				justify-self: end;
-				width: min(100%, 300px);
-			}
-
-			.window-label {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				padding: 0.55rem 0.75rem;
-				border: 1px solid rgba(255, 255, 255, 0.2);
-				border-bottom: 0;
-				border-radius: 8px 8px 0 0;
-				background: #17191f;
-				color: #e6ff36;
+			.status-panel .panel-title {
+				margin: 0 0 1rem;
+				color: var(--accent-strong);
 				font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-				font-size: 0.78rem;
+				font-size: 0.9rem;
 				font-weight: 800;
 			}
 
-			.phone-shell {
-				position: relative;
-				display: block;
-				aspect-ratio: 9 / 16;
-				padding: 0.65rem;
-				border: 1px solid rgba(255, 255, 255, 0.24);
-				border-radius: 0 0 28px 28px;
-				background: #050706;
-				box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
-				overflow: hidden;
-			}
-
-			.phone-shell img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				border-radius: 0 0 20px 20px;
-			}
-
-			.play-mark {
-				position: absolute;
-				left: 50%;
-				top: 50%;
+			.status-panel dl {
 				display: grid;
-				width: 74px;
-				height: 74px;
-				place-items: center;
-				border-radius: 999px;
-				background: rgba(14, 18, 13, 0.86);
-				transform: translate(-50%, -50%);
-			}
-
-			.play-mark::before {
-				margin-left: 5px;
-				border-top: 14px solid transparent;
-				border-bottom: 14px solid transparent;
-				border-left: 22px solid white;
-				content: "";
-			}
-
-			.demo-note {
-				margin-top: 1rem;
-				padding: 1rem;
-				border: 1px solid rgba(255, 255, 255, 0.18);
-				border-radius: 8px;
-				background: rgba(255, 255, 255, 0.08);
-			}
-
-			.demo-note h2 {
-				color: white;
-				font-size: 1.15rem;
-			}
-
-			.demo-note p {
-				margin: 0;
-				color: #d7e0de;
-				font-size: 0.95rem;
-			}
-
-			.demo-links {
-				display: flex;
-				flex-wrap: wrap;
 				gap: 0.8rem;
-				margin-top: 0.8rem;
+				margin: 0;
 			}
 
-			.demo-links a {
-				color: #e6ff36;
-				font-size: 0.9rem;
-				font-weight: 900;
-				text-decoration: none;
+			.status-panel div {
+				display: grid;
+				grid-template-columns: 78px 1fr;
+				gap: 1rem;
+				padding-top: 0.8rem;
+				border-top: 1px solid var(--line);
+			}
+
+			.status-panel div:first-of-type {
+				padding-top: 0;
+				border-top: 0;
+			}
+
+			.status-panel dt {
+				color: var(--muted);
+				font-size: 0.78rem;
+				font-weight: 800;
+				text-transform: uppercase;
+			}
+
+			.status-panel dd {
+				margin: 0;
+				color: var(--ink);
+				font-weight: 700;
+				line-height: 1.35;
 			}
 
 			.shelf {
@@ -425,35 +302,26 @@ const jsonLd = [
 			}
 
 			@media (max-width: 900px) {
-				.hero,
+				.home-intro,
 				.field-grid,
 				.note-strip {
 					grid-template-columns: 1fr;
 				}
 
-				.hero::after {
-					width: 6px;
-				}
-
-				.demo-stage {
-					justify-self: start;
-					width: min(100%, 330px);
-				}
-
-				.status-strip {
-					grid-template-columns: repeat(2, minmax(0, 1fr));
+				.status-panel {
+					max-width: 520px;
 				}
 			}
 
 			@media (max-width: 640px) {
-				.hero {
-					padding-top: 3rem;
-					padding-bottom: 3rem;
+				.home-intro {
+					padding-top: 2.5rem;
+					padding-bottom: 2rem;
 				}
 
-				.status-strip,
 				.shortlist a,
-				.now-list div {
+				.now-list div,
+				.status-panel div {
 					grid-template-columns: 1fr;
 				}
 
@@ -467,61 +335,41 @@ const jsonLd = [
 	<body>
 		<Header />
 		<main>
-			<section class="hero">
-				<div class="hero-copy">
-					<p class="terminal-line">Backend platforms + applied AI</p>
-					<h1>Building useful systems from product ideas.</h1>
+			<section class="home-intro" aria-labelledby="intro-title">
+				<div class="intro-copy">
+					<p class="prompt">$ whoami</p>
+					<h1 id="intro-title">Systems, notes, and useful AI experiments.</h1>
 					<p class="lede">
-						Lead engineer focused on monetization, recommendations, LLM gateways,
+						I'm a lead engineer focused on monetization, recommendations, LLM gateways,
 						and coaching apps that move from prototype to production.
 					</p>
 					<div class="actions">
-						{repwise?.data.demoUrl && <a class="button" href={repwise.data.demoUrl} target="_blank" rel="noopener noreferrer">Watch RepWise</a>}
-						<a class="button secondary" href="/work">Open shelf</a>
+						<a class="button" href="/work">Work shelf</a>
+						{repwise?.data.demoUrl && <a class="button secondary" href={repwise.data.demoUrl} target="_blank" rel="noopener noreferrer">RepWise demo</a>}
 						<a class="button secondary" href={`mailto:${SITE_EMAIL}`}>Email</a>
 					</div>
-					<div class="status-strip" aria-label="Career highlights">
-						<div>
-							<span>Role</span>
-							<strong>Lead backend engineer</strong>
-						</div>
-						<div>
-							<span>Focus</span>
-							<strong>Applied AI systems</strong>
-						</div>
-						<div>
-							<span>Building</span>
-							<strong>TokenOps + RepWise</strong>
-						</div>
-						<div>
-							<span>Base</span>
-							<strong>Noida, India</strong>
-						</div>
-					</div>
 				</div>
-				{repwise?.data.demoUrl && repwise.data.videoThumbUrl && (
-					<aside class="demo-stage" id="repwise-demo" aria-label="RepWise demo">
-						<div class="window-label">
-							<span>repwise.short</span>
-							<span>live demo</span>
+				<aside class="status-panel" aria-label="Current status">
+					<p class="panel-title">now.json</p>
+					<dl>
+						<div>
+							<dt>role</dt>
+							<dd>Lead SDE, Housing.com / REA India</dd>
 						</div>
-						<a class="phone-shell" href={repwise.data.demoUrl} target="_blank" rel="noopener noreferrer">
-							<img src={repwise.data.videoThumbUrl} alt="RepWise app demo showing pose tracking during a workout" width="552" height="1200" />
-							<span class="play-mark" aria-hidden="true"></span>
-						</a>
-						<div class="demo-note">
-							<p class="eyebrow">RepWise</p>
-							<h2>AI workout coaching in motion.</h2>
-							<p>Click the phone for the full YouTube Short. The X post has the screenshot thread.</p>
-							<div class="demo-links">
-								<a href={repwise.data.demoUrl} target="_blank" rel="noopener noreferrer">YouTube Short</a>
-								{repwise.data.socialUrl && (
-									<a href={repwise.data.socialUrl} target="_blank" rel="noopener noreferrer">X post</a>
-								)}
-							</div>
+						<div>
+							<dt>stack</dt>
+							<dd>Backend platforms, applied AI, product systems</dd>
 						</div>
-					</aside>
-				)}
+						<div>
+							<dt>shipping</dt>
+							<dd>TokenOps, RepWise, Zone2Coach</dd>
+						</div>
+						<div>
+							<dt>base</dt>
+							<dd>Noida, India</dd>
+						</div>
+					</dl>
+				</aside>
 			</section>
 
 			<section class="shelf">
